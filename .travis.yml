@@ -1,0 +1,16 @@
+language: Fortran
+arch:
+  - amd64
+  - ppc64le
+  - s390x
+  - arm64
+os: 
+  - osx
+  - linux
+
+before_install:
+  - if [ ! "$TRAVIS_OS_NAME" = "osx" ]; then sudo apt-get -y install gfortran; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install p7zip; fi
+
+script:
+  - 7z x neupdfo.zip -pneupdfo2021; cd neupdfo/fsrc/test; make clean; make gtest

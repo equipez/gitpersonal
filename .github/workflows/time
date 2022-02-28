@@ -1,0 +1,15 @@
+test_gfortran_finished.yml:    - cron: '0 16 * * *'
+profile_finished.yml:    - cron: '0 8 * * *'
+test_flang_finished.yml:    - cron: '0 12 * * *'
+test_g95_finished.yml:    - cron: '0 6 * * *'
+test_ifort_finished.yml:    - cron: '0 14 * * *'
+verify_finished.yml:    - cron: '0 20 * *
+test_ifx_finished.yml:    - cron: '0 22 * * *'
+test_nvfortran_finished.yml:    - cron: '0 0 * * *'
+test_sunf95_finished.yml:    - cron: '0 4 * * *'
+
+lint_finished.yml:    - cron: '0 18 * * *'
+test_nagfor_finished.yml:    - cron: '0 10 * * *'
+test_absoft_finished.yml:    - cron: '0 2 * * *'
+
+test_kunpeng_finished.yml:    - cron: '0 16 * * *'

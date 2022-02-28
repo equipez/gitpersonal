@@ -1,0 +1,61 @@
+name: Verify faithfulness of the basis.
+
+on:
+  # Trigger the workflow on push or pull request
+  #push:
+  #pull_request:  # DANGEROUS! MUST be disabled for self-hosted runners!
+  # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
+  schedule:
+    - cron: '0 1,9,17 * * *'
+  # Trigger the workflow when it is manually triggered
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Verify the faithfulness of the modernized solvers.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        solver: [lincoa, bobyqa, uobyqa, cobyla, newuoa]
+        dim: [small, big, large]
+        version: [220208.113954, 220227.013302]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install CUTEst
+        run: |
+          bash .github/scripts/install_cutest
+
+      - name: Check MATLAB
+        id: check_matlab
+        run: |
+            if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
+
+      - name: Set up MATLAB
+        if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
+        uses: matlab-actions/setup-matlab@v1
+
+      - name: Get the source
+        run: unzip -P neupdfo2021 neupdfo.zip
+
+      - name: Run script
+        uses: matlab-actions/run-command@v1
+        with:
+          command: |
+            cd('neupdfo/base/${{ matrix.version }}/matlab/tests');
+            tz = 'Asia/Shanghai';
+            dt = datetime('now', 'TimeZone', tz);
+            DayMonth = day(dt);
+            if mod(DayMonth, 2) == 1
+                fprintf('\n\n==========> Run the test sequentially <===========\n\n');
+                verify('${{ matrix.solver }}', '${{ matrix.dim }}', 'seq');
+            else
+                fprintf('\n\n==========> Run the test in parallel <===========\n\n');
+                verify('${{ matrix.solver }}', '${{ matrix.dim }}');
+            end
+            delete([upper('${{ matrix.solver }}'), '_output.txt']);
+            delete('fort.6');
+            cd ../../;
+            setup clean; setup uninstall;

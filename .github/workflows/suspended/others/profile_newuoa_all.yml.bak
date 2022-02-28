@@ -1,0 +1,56 @@
+name: Plot performance profiles for newuoa, all
+
+on:
+  # Trigger the workflow on push or pull request
+  push:
+  #pull_request:  # DANGEROUS! MUST be disabled for self-hosted runners!
+  # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
+  # schedule:
+  #   - cron: '0 2,6,10,14,18,22 * * *'
+  # Trigger the workflow when it is manually triggered
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Plot the performance profiles of the modernized solvers.
+    runs-on: ubuntu-latest #[self-hosted, matlab]
+    strategy:
+      fail-fast: false
+      matrix:
+        dim: [all]
+        solver: [newuoa]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install CUTEst
+        run: |
+          bash .github/scripts/install_cutest
+
+      - name: Check MATLAB
+        id: check_matlab
+        run: |
+            if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
+
+      - name: Set up MATLAB
+        if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
+        uses: matlab-actions/setup-matlab@v1
+
+      - name: Get the source
+        run: unzip -P neupdfo2021 neupdfo.zip
+
+      - name: Run script
+        uses: matlab-actions/run-command@v1
+        with:
+          command: |
+            cd('neupdfo/matlab/tests');
+            profile('${{ matrix.solver }}', '${{ matrix.dim }}');
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: neupdfo/matlab/tests/testdata
+
+      - name: Remove the test data
+        run:
+          rm -rf ./neupdfo/matlab/tests/testdata
