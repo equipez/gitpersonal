@@ -51,7 +51,6 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: |
-            return
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
             verify('${{ matrix.solver }}', '${{ matrix.dim }}');
