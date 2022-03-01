@@ -48,12 +48,13 @@ jobs:
             tz = 'Asia/Shanghai';
             dt = datetime('now', 'TimeZone', tz);
             DayMonth = day(dt);
+            if strcmp('${{ matrix.dim }}', 'large'), options.nr = 1; else, options = struct(); end; options
             if mod(DayMonth, 2) == 1
                 fprintf('\n\n==========> Run the test sequentially <===========\n\n');
-                verify('${{ matrix.solver }}', '${{ matrix.dim }}', 'seq');
+                verify('${{ matrix.solver }}', '${{ matrix.dim }}', 'seq', options);
             else
                 fprintf('\n\n==========> Run the test in parallel <===========\n\n');
-                verify('${{ matrix.solver }}', '${{ matrix.dim }}');
+                verify('${{ matrix.solver }}', '${{ matrix.dim }}', options);
             end
             delete([upper('${{ matrix.solver }}'), '_output.txt']);
             delete('fort.6');

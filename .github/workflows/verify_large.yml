@@ -46,5 +46,6 @@ jobs:
           command: |
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
-            verify('${{ matrix.solver }}', '${{ matrix.dim }}');
+            options.nr = 1;
+            verify('${{ matrix.solver }}', '${{ matrix.dim }}', options);
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
