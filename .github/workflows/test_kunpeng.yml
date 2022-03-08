@@ -36,8 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #compiler: [g, f, v]
-        compiler: [g]
+        compiler: [g, f, v]
         ikind: [i2, i4, i8]
         solver: [lincoa, bobyqa, uobyqa]
 
