@@ -1,6 +1,7 @@
 test_gfortran_finished.yml:    - cron: '0 16 * * *'
 profile_finished.yml:    - cron: '0 8 * * *'
 test_flang_finished.yml:    - cron: '0 12 * * *'
+test_aflang_finished.yml:    - cron: '0 7 * * *'
 test_g95_finished.yml:    - cron: '0 6 * * *'
 test_ifort_finished.yml:    - cron: '0 14 * * *'
 verify_finished.yml:    - cron: '0 20 * *
