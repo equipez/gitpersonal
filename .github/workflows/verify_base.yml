@@ -55,7 +55,10 @@ jobs:
             tz = 'Asia/Shanghai';
             dt = datetime('now', 'TimeZone', tz);
             DayMonth = day(dt);
-            if strcmp('${{ matrix.dim }}', 'large'), options.nr = 1; else, options = struct(); end; options
+            options = struct();
+            options.seed = 10000*mod(year(dt), 100) + 100*week(dt) + hour(dt);
+            if strcmp('${{ matrix.dim }}', 'large'), options.nr = 5; end;
+            options
             if mod(DayMonth, 2) == 1
                 fprintf('\n\n==========> Run the test sequentially <===========\n\n');
                 verify('${{ matrix.solver }}', '${{ matrix.dim }}', 'seq', options);
