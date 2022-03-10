@@ -19,7 +19,7 @@ jobs:
       matrix:
         solver: [lincoa, bobyqa, uobyqa, cobyla, newuoa]
         dim: [small, big, large]
-        version: [220208.113954, 220227.013302]
+        version: [220208, 220227]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
