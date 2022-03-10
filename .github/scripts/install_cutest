@@ -1,18 +1,24 @@
 #!/bin/bash
 # This script installs CUTEst on Linux, using the compiled CUTEst in $GITREPO.
-# Last CUTEst update: 20220310
+# CUTEst version: 20220310
 
-GITREPO="https://github.com/zaikunzhang/CUTEst"
-REPONAME="$(basename "$GITREPO")"
-TMPDIR="/tmp"
-INSTALL_DIR="$HOME/local"
+#GIT="gitee.com"
+GIT="github.com"
+GIT_USR="zaikunzhang"
+REPONAME="CUTEst"
 PKG="cutesif.7z"
-PKG_NAME="${PKG//.*/}"
-DECOMP="$(command -v 7z) x"
+
+INSTALL_DIR="$HOME/local"  # CUTEst will be installed $INSTALL_DIR/$PKG_NAME
+TMPDIR="/tmp"
+DECOMP="$(command -v 7z) x"  # Command to decompress the package
+
+GITREPO="https://$GIT/$GIT_USR/$REPONAME"
+PKG_NAME="${PKG//.*/}"  # Remove the suffix from $PKG
 
 if [[ ! -d "$INSTALL_DIR"/"$PKG_NAME" ]] ;then
     cd "$TMPDIR" && rm -rf "$REPONAME" && git clone "$GITREPO"
     mkdir -p "$INSTALL_DIR"
     mv "$TMPDIR"/"$REPONAME"/$PKG "$INSTALL_DIR"
     cd "$INSTALL_DIR" && $DECOMP $PKG   # "$DECOMP $PKG" does not work
+    rm -f "$INSTALL_DIR"/"$PKG"
 fi
