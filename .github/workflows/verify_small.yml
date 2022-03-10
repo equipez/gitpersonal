@@ -24,12 +24,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      # - name: cache install CUTEst
-      #   id: cache-install-cutest
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/local/cutesif
-      #     key:  ${{ runner.os }}-${{ hashFiles('**/.github/scripts/install_cutest') }}
+      - name: cache install CUTEst
+        id: cache-install-cutest
+        uses: actions/cache@v2
+        with:
+          path: ~/local/cutesif
+          key:  ${{ runner.os }}-${{ hashFiles('**/.github/scripts/install_cutest') }}
       - name: Install CUTEst
         if: steps.cache-install-cutest.outputs.cache-hit != 'true'
         run: |
