@@ -44,8 +44,6 @@ jobs:
         run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
 
       - name: Check MATLAB
-
-      - name: Check MATLAB
         id: check_matlab
         run: |
             if type 'matlab' &> /dev/null ; then echo "::set-output name=has_matlab::true" ; fi
