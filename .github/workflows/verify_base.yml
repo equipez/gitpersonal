@@ -21,6 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         solver: [lincoa, bobyqa, uobyqa, cobyla, newuoa]
         dim: [small, big, large]
         version: [220208, 220227]
@@ -40,7 +41,7 @@ jobs:
           bash .github/scripts/install_cutest
 
       - name: Link gfortran for MATLAB on Linux
-        if: startsWith(matrix.os, 'ubuntu') 
+        if: startsWith(matrix.os, 'ubuntu')
         run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
 
       - name: Check MATLAB
