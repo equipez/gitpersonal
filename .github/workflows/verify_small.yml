@@ -17,7 +17,7 @@ env:
 jobs:
   test:
     name: Verify the faithfulness of the modernized solvers.
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:

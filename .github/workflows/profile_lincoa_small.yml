@@ -11,13 +11,13 @@ on:
   workflow_dispatch:
 
 env:
-  GFORTRAN_VERSION: 9
-  MATLAB_RELEASE: R2021b
+  GFORTRAN_VERSION: 10
+  MATLAB_RELEASE: latest
 
 jobs:
   test:
     name: Plot the performance profiles of the modernized solvers.
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
