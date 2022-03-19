@@ -63,25 +63,7 @@ jobs:
           command: |
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
-            switch '${{ matrix.solver }}'
-            case 'cobyla'
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'ubln');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'u', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'b', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'l', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'n', 'load');
-            case 'lincoa'
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'ubl');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'u', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'b', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'l', 'load');
-            case 'bobyqa'
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'ub');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'u', 'load');
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'b', 'load');
-            case {'newuoa', 'uobyqa'}
-                profile('${{ matrix.solver }}', '${{ matrix.dim }}', 'u');
-            end
+            profile('${{ matrix.solver }}', '${{ matrix.dim }}');
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 
       - name: Store artifacts
