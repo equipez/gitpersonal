@@ -63,8 +63,7 @@ jobs:
           command: |
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
-            opt.debug=true
-            profile('${{ matrix.solver }}', '${{ matrix.dim }}', opt);
+            profile('${{ matrix.solver }}', '${{ matrix.dim }}');
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 
       - name: Store artifacts
