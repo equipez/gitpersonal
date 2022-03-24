@@ -55,6 +55,9 @@ jobs:
         with:
           release: ${{ env.MATLAB_RELEASE }}
 
+      - name: Make the MATLAB installation directory writable
+        run: sudo chmod -R +w /usr/local/MATLAB
+
       - name: Get the source
         run: unzip -P neupdfo2021 neupdfo.zip
 
