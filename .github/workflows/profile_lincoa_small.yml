@@ -24,7 +24,7 @@ jobs:
         os: [ubuntu-latest]
         dim: [small]
         solver: [lincoa]
-        option: [randomizex0=1e-6, eval_options.single=true, eval_options.signif5=true, compiler_options='-O3']
+        option: [randomizex0=1e-5, eval_options.single=true, eval_options.signif5=true, eval_options.dnoise=struct('level', 1e-5), eval_options.noise=struct('level', 1e-5)]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -54,9 +54,6 @@ jobs:
         uses: matlab-actions/setup-matlab@v1
         with:
           release: ${{ env.MATLAB_RELEASE }}
-
-      - name: Make the MATLAB installation directory writable
-        run: sudo chmod -R +w /usr/local/MATLAB
 
       - name: Get the source
         run: unzip -P neupdfo2021 neupdfo.zip
