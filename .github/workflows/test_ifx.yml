@@ -75,7 +75,7 @@ jobs:
           cd $ROOT/fsrc/tests && make xtest_${{ matrix.ikind }}.${{ matrix.solver }}
           cd $ROOT/fsrc/examples/${{ matrix.solver }} && make xtest
       - name: Store artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: ${{ env.TEST_DIR }}/neupdfo/fsrc/tests/test.${{ matrix.solver }}/log/*.log
 

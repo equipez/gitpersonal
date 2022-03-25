@@ -71,9 +71,13 @@ jobs:
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          path: neupdfo/matlab/tests/testdata
+          path: |
+            neupdfo/matlab/tests/testdata
+            !neupdfo/matlab/tests/testdata/*.mat
+            !neupdfo/matlab/tests/testdata/**/*.mat
+
 
       - name: Remove the test data
         run:
