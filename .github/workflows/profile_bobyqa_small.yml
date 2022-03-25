@@ -67,6 +67,7 @@ jobs:
             options = []; noise=struct('level', 1e-5);
             options.${{ matrix.option }}
             profile('${{ matrix.solver }}', '${{ matrix.dim }}', options);
+            delete(fullfile(cd(), 'testdata', '*.mat'));
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 
       - name: Store artifacts
