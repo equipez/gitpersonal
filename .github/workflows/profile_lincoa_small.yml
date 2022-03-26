@@ -24,8 +24,7 @@ jobs:
         os: [ubuntu-latest]
         dim: [small]
         solver: [lincoa]
-        #option: [none=true,randomizex0=1e-5, eval_options.single=true, eval_options.signif5=true, eval_options.dnoise=noise, eval_options.noise=noise]
-        option: [none=true]
+        option: [none=true,randomizex0=1e-5, eval_options.single=true, eval_options.signif5=true, eval_options.dnoise=noise, eval_options.noise=noise]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
