@@ -2,7 +2,7 @@ name: Plot performance profiles for big, large, and all
 
 on:
   # Trigger the workflow on push or pull request
-#  push:
+  push:
   #pull_request:  # DANGEROUS! MUST be disabled for self-hosted runners!
   # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
   schedule:
@@ -24,7 +24,6 @@ jobs:
         os: [ubuntu-latest]
         dim: [big, large, all]
         solver: [lincoa, bobyqa, uobyqa]
-        option: [none=true, randomizex0=1e-5, eval_options.single=true, eval_options.signif5=true, eval_options.dnoise=noise, eval_options.noise=noise]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -43,6 +42,10 @@ jobs:
       - name: Link gfortran for MATLAB on Linux
         if: startsWith(matrix.os, 'ubuntu')
         run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
+
+      - name: install epstopdf and ghostscript
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo apt install texlive-font-utils ghostscript -y
 
       - name: Check MATLAB
         id: check_matlab
@@ -64,9 +67,7 @@ jobs:
           command: |
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
-            options = []; noise=struct('level', 1e-5);
-            options.${{ matrix.option }}
-            profile('${{ matrix.solver }}', '${{ matrix.dim }}', options);
+            profile('${{ matrix.solver }}', '${{ matrix.dim }}');
             delete(fullfile(cd(), 'testdata', '*.mat'));
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 

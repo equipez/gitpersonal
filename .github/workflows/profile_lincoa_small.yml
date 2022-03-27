@@ -67,7 +67,7 @@ jobs:
           command: |
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
-            prof('${{ matrix.solver }}', [1, 2]);
+            profile('${{ matrix.solver }}', '${{ matrix.dim }}');
             delete(fullfile(cd(), 'testdata', '*.mat'));
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.
 
