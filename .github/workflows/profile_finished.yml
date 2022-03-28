@@ -86,3 +86,10 @@ jobs:
       - name: Remove the test data
         run:
           rm -rf ./neupdfo/matlab/tests/testdata
+
+            # if strcmp('${{ matrix.solver }}', 'cobyla') && (strcmp('${{ matrix.dim }}', 'large') || strcmp('${{ matrix.dim }}', 'all'))
+            #     prof('${{ matrix.solver }}', '${{ matrix.dim }}', 'n');
+            # else
+            #     prof('${{ matrix.solver }}', '${{ matrix.dim }}');
+            # end
+            # delete(fullfile(cd(), 'testdata', '*.mat'));
