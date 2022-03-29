@@ -25,6 +25,10 @@ jobs:
         solver: [lincoa, bobyqa, uobyqa, cobyla, newuoa]
         dim: [small, big, large]
         version: [220208, 220227]
+        exclude:
+          - solver: lincoa
+            dim: large  # very few problems but take too much time to run
+            version: 220208
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
