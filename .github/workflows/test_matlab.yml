@@ -120,5 +120,4 @@ jobs:
                   setup path
                   setup uninstall
                   cd(fullfile(root_dir, 'neupdfo', 'matlab', 'tests')); pdv
-                  setup uninstall
               end
