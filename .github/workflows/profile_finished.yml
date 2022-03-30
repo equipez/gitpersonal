@@ -68,7 +68,7 @@ jobs:
             root_dir = pwd();
             cd('neupdfo/matlab/tests');
             if strcmp('${{ matrix.solver }}', 'cobyla') && ~strcmp('${{ matrix.dim }}', 'small')
-                prof('${{ matrix.solver }}', '${{ matrix.dim }}', 'nl');
+                prof('${{ matrix.solver }}', '${{ matrix.dim }}', 'ln');
             else
                 prof('${{ matrix.solver }}', '${{ matrix.dim }}');
             end
