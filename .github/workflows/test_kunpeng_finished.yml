@@ -40,11 +40,11 @@ jobs:
         #compiler: [g]
         ikind: [i2, i4, i8]
         solver: [newuoa, cobyla]
-        exclude:
-          - compiler: f
-            solver: cobyla
-          - compiler: v
-            solver: cobyla
+        # exclude:
+        #   - compiler: f
+        #     solver: cobyla
+        #   - compiler: v
+        #     solver: cobyla
 
     steps:
       - name: Checkout repository
