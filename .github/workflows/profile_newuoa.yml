@@ -1,4 +1,4 @@
-name: Plot performance profiles for the finished solvers
+name: Plot performance profiles for newuoa
 
 on:
   # Trigger the workflow on push or pull request
