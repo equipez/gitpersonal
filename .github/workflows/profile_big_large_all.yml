@@ -27,6 +27,14 @@ jobs:
         exclude:
           - dim: all
             solver: uobyqa
+          - dim: big
+            solver: lincoa
+          - dim: big
+            solver: bobyqa
+          - dim: large
+            solver: lincoa
+          - dim: large
+            solver: bobyqa
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -73,7 +81,13 @@ jobs:
             if strcmp('${{ matrix.solver }}', 'uobyqa')
                 profile('${{ matrix.solver }}', '${{ matrix.dim }}');
             else
-                prof('${{ matrix.solver }}', '${{ matrix.dim }}');
+                if  strcmp('${{ matrix.solver }}', 'lincoa')
+                    prof('${{ matrix.solver }}', '${{ matrix.dim }}', 'l');
+                elseif  strcmp('${{ matrix.solver }}', 'bobyqa')
+                    prof('${{ matrix.solver }}', '${{ matrix.dim }}', 'b');
+                else
+                    prof('${{ matrix.solver }}', '${{ matrix.dim }}');
+                end
             end
             delete(fullfile(cd(), 'testdata', '*.mat'));
             cd(fullfile(root_dir, 'neupdfo')); setup path  % Test that `setup path` works properly.

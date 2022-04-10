@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        dim: [small, big, large, all]
+        dim: [small, all]
         solver: [newuoa]
     steps:
       - name: Check out repository
