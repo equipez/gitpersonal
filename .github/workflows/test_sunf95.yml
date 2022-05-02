@@ -74,7 +74,10 @@ jobs:
           ROOT=$(realpath ./neupdfo)
           cd $ROOT/fsrc/${{ matrix.solver }} && bash ./flint --all && bash ./mlint --all
           cd $ROOT/fsrc/tests && make stest_${{ matrix.ikind }}.${{ matrix.solver }}
-          cd $ROOT/fsrc/examples/${{ matrix.solver }} && make stest
+          # sunf95 cannot handle matrix indexing with TRUELOC
+          if [[ ! ${{ matrix.solver }}=='lincoa' && ! ${{ matrix.solver }}=='bobyqa' ]] ; then
+              cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
+          end if
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3

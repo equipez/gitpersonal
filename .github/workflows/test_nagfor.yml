@@ -58,7 +58,13 @@ jobs:
           source ~/local/bin/nag_licensing || echo "\n\nNAG licensing failed.\n\n"
           ROOT=$(realpath ./neupdfo)
           cd $ROOT/fsrc/tests && make ntest_${{ matrix.ikind }}.${{ matrix.solver }}
-          cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
+          ##########################################################################################
+          # NAG Fortran Compiler Release 7.0(Yurakucho) Build 7066 cannot handle matrix indexing
+          # with TRUELOC
+          if [[ ! ${{ matrix.solver }}=='lincoa' ]] ; then
+              cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
+          end if
+          ##########################################################################################
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
