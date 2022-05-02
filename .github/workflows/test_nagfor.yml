@@ -63,7 +63,7 @@ jobs:
           # with TRUELOC
           if [[ ! ${{ matrix.solver }}=='lincoa' ]] ; then
               cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
-          end if
+          fi
           ##########################################################################################
 
       - name: Store artifacts

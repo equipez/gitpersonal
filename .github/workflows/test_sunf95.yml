@@ -77,7 +77,7 @@ jobs:
           # sunf95 cannot handle matrix indexing with TRUELOC
           if [[ ! ${{ matrix.solver }}=='lincoa' && ! ${{ matrix.solver }}=='bobyqa' ]] ; then
               cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
-          end if
+          fi
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
