@@ -23,7 +23,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         dim: [big, large, all]
-        solver: [lincoa, bobyqa] #, uobyqa]
+        solver: [lincoa, bobyqa, uobyqa]
         exclude:
           - dim: all
             solver: uobyqa
