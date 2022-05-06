@@ -25,7 +25,7 @@ jobs:
   #     has_recent_commit: ${{ steps.has_recent_commit.outputs.has_recent_commit }}
 
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - name: print latest_commit
   #       run: echo ${{ github.sha }}
   #     - id: has_recent_commit
@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Intel oneAPI on Linux
         if: matrix.os == 'ubuntu-latest'
@@ -72,7 +72,7 @@ jobs:
       - name: cache install Intel oneAPI on macOS
         if: matrix.os == 'macos-latest'
         id: cache-install-macos
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /opt/intel/oneapi
           key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_FORTRAN_COMPONENTS }}

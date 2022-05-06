@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Check MATLAB
         id: check_matlab
@@ -25,13 +25,13 @@ jobs:
 
       - name: Set up MATLAB
         if: ${{ steps.check_matlab.outputs.has_matlab != 'true' }}
-        uses: matlab-actions/setup-matlab@v1
+        uses: matlab-actions/setup-matlab@v1.1.1
 
       - name: Get the source
         run: unzip -P neupdfo2021 neupdfo.zip
 
       - name: Run script
-        uses: matlab-actions/run-command@v1
+        uses: matlab-actions/run-command@v1.0.1
         with:
           command: |
             cd('neupdfo/matlab/setup_tools');

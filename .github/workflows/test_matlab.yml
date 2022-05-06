@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: prepare for cache restore for Intel oneAPI on macOS
         if: matrix.os == 'macos-latest'
@@ -41,7 +41,7 @@ jobs:
       - name: cache install Intel oneAPI on macOS
         if: matrix.os == 'macos-latest'
         id: cache-install-macos
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /opt/intel/oneapi
           key: install-${{ env.MACOS_HPCKIT_URL }}-${{ env.MACOS_FORTRAN_COMPONENTS }}
@@ -57,7 +57,7 @@ jobs:
       - name: cache install Intel oneAPI on Windows
         if: startsWith(matrix.os, 'windows')
         id: cache-install-windows
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: C:\Program Files (x86)\Intel\oneAPI\compiler
           key: install-${{ env.WINDOWS_HPCKIT_URL }}-${{ env.WINDOWS_FORTRAN_COMPONENTS }}-compiler-${{ hashFiles('**/.github/scripts/cache_exclude_oneapi_windows.sh') }}
@@ -79,7 +79,7 @@ jobs:
         run: sudo bash .github/scripts/link_gfortran_for_matlab ${{ env.GFORTRAN_VERSION }}
 
       - name: Set up MATLAB
-        uses: matlab-actions/setup-matlab@v1.1.0
+        uses: matlab-actions/setup-matlab@v1.1.1
         with:
           release: ${{ env.MATLAB_RELEASE }}
 
@@ -87,7 +87,7 @@ jobs:
         run: unzip -P neupdfo2021 neupdfo.zip
 
       - name: Run script
-        uses: matlab-actions/run-command@v1
+        uses: matlab-actions/run-command@v1.0.1
         with:
           command: |
               root_dir = pwd();
