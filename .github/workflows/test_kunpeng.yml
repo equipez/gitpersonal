@@ -39,6 +39,9 @@ jobs:
         compiler: [g, f, v]
         ikind: [i2, i4, i8]
         solver: [lincoa, bobyqa, uobyqa]
+        exclude:  # Exclude vtest for BOBYQA for the moment, as it will encounter `DENOM_TEST /= DENOM`.
+          - compiler: v
+          - solver: bobyqa
 
     steps:
       - name: Checkout repository

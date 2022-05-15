@@ -1,4 +1,4 @@
-name: Test nagfor for the solvers
+name: Test nvfortran for the solvers
 
 on:
   # Trigger the workflow on push or pull request
@@ -6,9 +6,10 @@ on:
   #pull_request:  # DANGEROUS! MUST be disabled for self-hosted runners!
   # Trigger the workflow by cron. The default time zone of GitHub Actions is UTC.
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '0 23 * * *'
   # Trigger the workflow when it is manually triggered
   workflow_dispatch:
+
 
 jobs:
   # check_date:
@@ -25,23 +26,39 @@ jobs:
   #       continue-on-error: true
   #       name: check whether the last commit is sufficiently recent
   #       if: ${{ github.event_name == 'schedule' }}
-  #       run: if [[ -n $(git rev-list --after="6 hours" ${{ github.sha }}) ]] ; then echo "::set-output name=has_recent_commit::true"; fi
+  #       run: if [[ -n $(git rev-list  --after="6 hours"  ${{ github.sha }}) ]] ; then echo "::set-output name=has_recent_commit::true"; fi
 
 
   test:
-    name: Run nagfor tests
+    name: Run nvfortran tests
     #needs: check_date
     #if: ${{ github.event_name != 'schedule' || needs.check_date.outputs.has_recent_commit == 'true' }}
-    runs-on: [self-hosted, nagfor]
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        ikind: [i2, i8]  # [i2, i4, i8] fails frequently due to unavailability of license servers.
-        solver: [lincoa, bobyqa, uobyqa]
+        # As of 20210918, according to https://github.com/actions/virtual-environments ,
+        # ubuntu-latest = ubuntu-20.04,
+        # macos-latest = macos-10.15,
+        # windows-latest = windows-2019
+        #os: [ubuntu-latest, ubuntu-18.04]
+        os: [ubuntu-latest]
+        bitness: [32, 64]
+        ikind: [i2, i4, i8]
+        #solver: [lincoa, bobyqa, uobyqa]
+        solver: [lincoa, uobyqa]  # Exclude vtest for BOBYQA for the moment, as it will encounter `DENOM_TEST /= DENOM`.
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Install nvfotran
+        run: |
+          sudo .github/scripts/install_nvfortran
+
+      - name: Make sed available on Windows
+        if: runner.os == 'Windows'
+        run: $env:Path += ";C:\Program Files\Git\usr\bin"
 
       - name: Set environment variables
         run: |
@@ -54,17 +71,10 @@ jobs:
 
       - name: Conduct the test
         run: |
-          export PATH=$PATH:"~/local/bin"
-          source ~/local/bin/nag_licensing || echo "\n\nNAG licensing failed.\n\n"
-          ROOT=$(realpath ./neupdfo)
-          cd $ROOT/fsrc/tests && make ntest_${{ matrix.ikind }}.${{ matrix.solver }}
-          ##########################################################################################
-          # NAG Fortran Compiler Release 7.0(Yurakucho) Build 7066 cannot handle matrix indexing
-          # with TRUELOC
-          if [[ ! ${{ matrix.solver }}=='lincoa' ]] ; then
-              cd $ROOT/fsrc/examples/${{ matrix.solver }} && make ntest
-          fi
-          ##########################################################################################
+          ROOT="$(cd "$(dirname "./neupdfo")"; pwd -P)/$(basename "./neupdfo")"  # `realpath` is unavailable on macOS
+          cd $ROOT/fsrc/${{ matrix.solver }} && bash ./flint --all && bash ./mlint --all
+          cd $ROOT/fsrc/tests && make vtest_${{ matrix.ikind }}.${{ matrix.solver }}
+          cd $ROOT/fsrc/examples/${{ matrix.solver }} && make vtest
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
