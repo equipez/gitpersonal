@@ -37,11 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         ikind: [i2, i8]  # [i2, i4, i8] fails frequently due to unavailability of license servers.
-        #solver: [lincoa, bobyqa, uobyqa]
-        solver: [lincoa, uobyqa]
-        # Disable BOBYQA for the moment, as ntest encounters
-        # 1. "./bobyqa/rescue.f90, line 201: Vector subscript for rank 1 of PTSAUX has extent 2 instead of 4"
-        # 2. REAL128 only: ./bobyqa/geometry.f90:263:11: error: invalid operands to binary > (have ‘DDReal’ {aka ‘struct <anonymous>’} and ‘DDReal’ {aka ‘struct <anonymous>’})
+        solver: [lincoa, bobyqa, uobyqa]
 
     steps:
       - name: Checkout repository
