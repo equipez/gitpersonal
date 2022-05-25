@@ -45,7 +45,7 @@ jobs:
         os: [ubuntu-latest]
         bitness: [32, 64]
         ikind: [i2, i4, i8]
-        solver: [bobyqa]
+        solver: [uobyqa, bobyqa]
 
     steps:
       - name: Checkout repository
