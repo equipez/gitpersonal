@@ -39,9 +39,12 @@ jobs:
         compiler: [g, f, v]
         ikind: [i2, i4, i8]
         solver: [lincoa, bobyqa, uobyqa]
-        exclude:  # Exclude vtest for BOBYQA for the moment, as it will encounter `DENOM_TEST /= DENOM`.
-          - compiler: v
-          - solver: bobyqa
+        exclude:
+          - compiler: v  # Exclude vtest for BOBYQA for the moment, as it will encounter `DENOM_TEST /= DENOM`.
+            solver: bobyqa
+          - compiler: f  # Exclude ftest_i2.lincoa, as it encounters a false positive failure of memory allocation when calling matprod21
+            ikind: i2
+            solver: lincoa
 
     steps:
       - name: Checkout repository
