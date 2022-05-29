@@ -42,7 +42,9 @@ jobs:
         exclude:
           - compiler: v  # Exclude vtest for BOBYQA for the moment, as it will encounter `DENOM_TEST /= DENOM`.
             solver: bobyqa
-          - compiler: f  # Exclude ftest.lincoa, as it encounters a false positive failure of memory allocation when calling matprod21
+          - compiler: f  # Exclude ftest.lincoa, as it encounters a false positive failure of memory allocation when calling matprod21 (geostep.f90, when calculating the projected gradient PGLAG)
+            solver: lincoa
+          - compiler: v  # Exclude vtest.lincoa, as it encounters a false positive failure of memory allocation when calling matprod21 (geostep.f90, when calculating the projected gradient PGLAG)
             solver: lincoa
 
     steps:
