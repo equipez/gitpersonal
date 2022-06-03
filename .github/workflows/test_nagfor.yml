@@ -37,7 +37,8 @@ jobs:
       fail-fast: false
       matrix:
         ikind: [i2, i8]  # [i2, i4, i8] fails frequently due to unavailability of license servers.
-        solver: [lincoa, bobyqa, uobyqa]
+        #solver: [lincoa, bobyqa, uobyqa]
+        solver: [lincoa, uobyqa]  # BOBYQA fails due to a bug of nagfor. See https://github.com/equipez/test_compiler/blob/master/test_def.f90
 
     steps:
       - name: Checkout repository
