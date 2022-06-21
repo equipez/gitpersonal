@@ -64,7 +64,7 @@ jobs:
           - os: windows-latest
             bitness: 32
           - os: windows-latest
-            version: 12 
+            version: 12
 
     steps:
       - name: Checkout repository
